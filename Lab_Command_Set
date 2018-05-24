@@ -1,0 +1,17 @@
+#Lab 1 Commands - Installing Minikube in Windows
+#Install Virtual Box
+VirtualBox-5.2.10-122406-Win.exe
+#Install kubectl
+kubectl.exe
+#Install Minikube
+minikube-installer.exe
+
+#Starting your New Cluster
+minikube start
+minikube status
+kubectl config use-context minikube
+minikube status
+kubectl cluster-info
+minikube version
+kubectl version
+kubectl get nodes
