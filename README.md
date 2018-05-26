@@ -8,4 +8,4 @@ Thanks for attending Cisco Live and enjoy
 
 Hector Morales - 2018 - hemorale@cisco.com
 Technical Solutions Architect, Global Service Provider Lead Architect
-DevNet ambassador
+GSP DevNet ambassador
