@@ -1,7 +1,15 @@
 Deploying a Cloud Native App Using Docker and Kubernetes
 LTRDEV-1200
 
-Instructions
+General Instructions for the lab
+Lab is divided in 6 minilabs, which as a whole, will create an actual Deployment in Kubernetes. There is an additional lab at the end that will challenge you to demonstrate your abilities in Kubernetes.
+
+Working directory:
+c:/CLUS18/LTRDEV-1200
+
+Clone the directory in order to have the latest documentation and commands
+
+Enjoy!
 
 Hector Morales
 hemorale@cisco.com
