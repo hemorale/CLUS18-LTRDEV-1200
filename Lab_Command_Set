@@ -1,3 +1,8 @@
+#Lab Command Set
+#Hector Morales - hemorale@cisco.com
+git clone https://github.com/hemorale/CLUS18-LTRDEV-1200/
+######################################
+
 #Lab 1 Commands - Installing Minikube in Windows
 #Install Virtual Box
 VirtualBox-5.2.10-122406-Win.exe
@@ -5,6 +10,7 @@ VirtualBox-5.2.10-122406-Win.exe
 kubectl.exe
 #Install Minikube
 minikube-installer.exe
+######################################
 
 #Starting your New Cluster
 minikube start
@@ -15,3 +21,118 @@ kubectl cluster-info
 minikube version
 kubectl version
 kubectl get nodes
+######################################
+
+#Lab 2 Commands - Create a Deployment
+#Creating a Deployment from a file
+more nginx-deployment.yaml
+kubectl create -f nginx-deployment.yaml
+kubectl get deploy
+kubectl get rs
+kubectl rollout status deployment/nginx-deployment
+kubectl get pods
+kubectl delete deployment/nginx-deployment
+
+#Creating a Deployment from a image using Run command
+kubectl run kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1 --port=8080
+kubectl get deployments
+kubectl get pod
+kubectl proxy –port 8002		#Default port is 8001
+curl http://localhost:8002/version
+export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+echo Name of the Pod: $POD_NAME #get the Pod name to query using API Server
+
+kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'  #get Pod names only
+######################################
+
+#Lab 3 Commands - Viewing Pods and Nodes
+kubectl get pods
+kubectl get pods -o wide
+kubectl get pods --namespace=default
+kubectl get pods --namespace=kube-system
+kubectl describe pods
+curl http://localhost:8002/api/v1/namespaces/default/pods/$POD_NAME/proxy/    #$POD_NAME variable is alredy set from previous lab
+kubectl logs $POD_NAME
+kubectl exec $POD_NAME env        #execute the command inside the container to get environment variables
+kubectl exec -ti $POD_NAME bash   #start a bash session into the Pod’s container. We can run any command inside the Pod’s container
+cat server.js                     #check our Web Server app inside the containers
+curl localhost:8080               #check Web Server is up and running inside the container
+exit
+minikube service list
+minikube dashboard
+######################################
+
+#Lab 4 Commands - Using Services, Labels and Locators
+kubectl get pods –o wide
+kubectl get services
+kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
+kubectl get services
+kubectl describe services/kubernetes-bootcamp
+export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
+echo NODE_PORT=$NODE_PORT
+kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}'    #Alternative step
+curl $(minikube ip):$NODE_PORT
+minikube ip
+kubectl describe deployments
+kubectl get pods -l run=kubernetes-bootcamp
+kubectl get services –l run=kubernetes-bootcamp
+export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+echo Name of the Pod: $POD_NAME
+kubectl label pod $POD_NAME app=v1
+kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'  #Alternative step
+kubectl label pod [COPY YOUR POD_NAME HERE] app=v1                                              #Alternative step
+kubectl describe pods $POD_NAME           #Or copy your Pod Name
+kubectl get pods –l app=v1
+kubectl delete service –l run=kubernetes-bootcamp
+kubectl get services
+curl $(minikube ip):$NODE_PORT	#Alternatively, use your browser
+kubectl exec -ti $POD_NAME curl localhost:8080
+######################################
+
+#Lab 5 Commands - Scaling a Deployment
+kubectl get deployments
+kubectl get pods
+kubectl get pods –o wide
+
+kubectl scale deployments/kubernetes-bootcamp –-replicas=4
+kubectl get deployments
+kubectl get pods
+kubectl get pods –o wide
+kubectl describe deployments/kubernetes-bootcamp
+
+kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
+kubectl get services
+
+$export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}') 
+$echo NODE_PORT=$NODE_PORT
+
+kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}'
+curl $(minikube ip):$NODE_PORT
+
+kubectl scale deployments/kubernetes-bootcamp --replicas=2
+kubectl get pods
+kubectl get pods -o wide
+######################################
+
+#Lab 6 Commands - Updating your App
+
+kubectl describe pods
+kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
+kubectl get pods –o wide
+kubectl get deployment –o wide 
+kubectl describe services/kubernetes-bootcamp
+export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0). nodePort}}') 
+echo NODE_PORT=$NODE_PORT
+curl $(minikube ip):$NODE_PORT
+kubectl rollout status deployment/kubernetes-bootcamp
+kubectl get pods -o wide
+kubectl get deployment –o wide
+kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=gcr.io/google-samples/kubernetes-bootcamp:v10
+kubectl get deployments
+kubectl get pods
+kubectl describe pods
+kubectl rollout undo deployments/kubernetes-bootcamp
+kubectl get pods
+######################################
+#             End of Lab             #
+######################################
