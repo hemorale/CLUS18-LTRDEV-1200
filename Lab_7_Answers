@@ -1,0 +1,33 @@
+mkdir hellonode
+cd hellonode
+more server.js
+more Dockerfile
+eval $(minikube docker-env)
+docker build -t hello-node:v1 .
+kubectl run hello-node --image=hello-node:v1 --port=8080
+kubectl get deployments
+kubectl get pods
+kubectl get events
+kubectl expose deployment hello-node --type=LoadBalancer
+kubectl get service
+minikube service hello-node
+kubectl get pods
+kubectl logs hello-node-[pod-hashtag]
+vi server.js
+more server.js
+docker build -t hello-node:v2 .
+kubectl set image deployment/hello-node hello-node=hello-node:v2
+minikube service hello-node
+###################################
+#### Lab 8 - Minikube services ####
+minikube addons list
+minikube addons enable heapster
+kubectl get po,svc -n kube-system
+minikube addons open heapster
+###################################
+#### Lab Clean Up              ####
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+docker rmi hello-node:v1 hello-node:v2 -f
+minikube stop
+eval $(minikube docker-env -u)
