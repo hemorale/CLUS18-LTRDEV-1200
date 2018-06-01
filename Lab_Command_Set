@@ -5,13 +5,13 @@ git clone https://github.com/hemorale/CLUS18-LTRDEV-1200/
 
 #Lab 1 Commands - Installing Minikube in Windows
 #Install Virtual Box
-# URL to download https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2.10-122406-Win.exe 
+# URL to download https://download.virtualbox.org/virtualbox/5.2.12/VirtualBox-5.2.12-122591-Win.exe 
 VirtualBox-5.2.10-122406-Win.exe
 #Install kubectl
 # URL to download https://storage.googleapis.com/kubernetes-release/release/v1.10.0/bin/windows/amd64/kubectl.exe
 kubectl.exe
 #Install Minikube
-# URL to download https://github.com/kubernetes/minikube/releases/download/v0.26.1/minikube-installer.exe
+# URL to download LAST RELEASE https://github.com/kubernetes/minikube/releases/download/v0.27.0/minikube-installer.exe
 minikube-installer.exe
 ######################################
 
